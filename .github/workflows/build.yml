@@ -20,7 +20,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     permissions:
       contents: read
       checks: write
@@ -34,16 +34,11 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 8
           cache: "maven"
 
-      - name: Setup Maven
-        uses: stCarolas/setup-maven@v5
-        with:
-          maven-version: 3.8.7
-
       - name: Build
-        run: mvn clean package
+        run: mvn -B -V -e -ntp -Dstyle.color=always clean verify
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5
